@@ -112,31 +112,31 @@ Yield Pilot orchestrates multi-step onchainOS CLI operations that would otherwis
 ┌─────────────────────────────────────────────────────────┐
 │                    YIELD PILOT                          │
 │                                                         │
-│   User: "Compound my rewards"                          │
+│   User: "Compound my rewards"                           │
 │                                                         │
 │   ┌─── Scan ────────────────────────────────────────┐   │
 │   │ onchainos defi positions                        │   │
 │   │ onchainos defi position-detail (for each)       │   │
 │   │ → Identify positions with claimable rewards     │   │
 │   └─────────────────────────────────────────────────┘   │
-│                       ↓                                  │
+│                       ↓                                 │
 │   ┌─── Collect ─────────────────────────────────────┐   │
 │   │ onchainos defi collect                          │   │
 │   │ onchainos wallet contract-call (sign & send)    │   │
 │   │ → Rewards claimed to wallet                     │   │
 │   └─────────────────────────────────────────────────┘   │
-│                       ↓                                  │
+│                       ↓                                 │
 │   ┌─── Swap ────────────────────────────────────────┐   │
 │   │ onchainos swap execute                          │   │
 │   │ → Rewards converted to pool base tokens         │   │
 │   └─────────────────────────────────────────────────┘   │
-│                       ↓                                  │
+│                       ↓                                 │
 │   ┌─── Reinvest ────────────────────────────────────┐   │
 │   │ onchainos defi invest                           │   │
 │   │ onchainos wallet contract-call (sign & send)    │   │
 │   │ → Capital back in the pool, compounding         │   │
 │   └─────────────────────────────────────────────────┘   │
-│                       ↓                                  │
+│                       ↓                                 │
 │   ✅ Report: Rewards, gas cost, effective APY           │
 └─────────────────────────────────────────────────────────┘
 ```
