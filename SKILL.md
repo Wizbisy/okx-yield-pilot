@@ -4,7 +4,9 @@ description: "Autonomous multi-chain yield farming autopilot — auto-compound, 
 license: MIT
 metadata:
   author: Wizbisy 
-  version: "1.0.1"
+  version: "1.0.0"
+  last_updated: "2026-05-08"
+  min_onchainos_version: "1.0.0"
   homepage: "https://github.com/Wizbisy/okx-yield-pilot"
 ---
 
@@ -44,7 +46,12 @@ Stay in this skill when the user wants **ongoing automated management**: auto-co
 
 ## Pre-flight Checks
 
-> Read `_shared/preflight.md` first. If that file does not exist, read `../okx-agentic-wallet/_shared/preflight.md` instead.
+> Read the preflight checks before any workflow. Look for the file in this order:
+> 1. `_shared/preflight.md` (relative to this SKILL.md file)
+> 2. `../_shared/preflight.md` (if skill is nested inside a parent skills folder)
+> 3. `../okx-agentic-wallet/_shared/preflight.md` (shared OKX preflight)
+>
+> If none exist, run these checks inline: (a) `onchainos wallet status` — verify logged in, (b) `onchainos wallet addresses` — resolve EVM + Solana addresses, (c) `onchainos defi positions` — verify at least one active position exists.
 
 ## Decision Tree
 

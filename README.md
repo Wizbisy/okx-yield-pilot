@@ -202,10 +202,27 @@ The key differentiator: **X Layer zero-gas routing**. Yield Pilot routes interme
 
 ---
 
+## Changelog
+
+| Version | Date | Changes |
+|---|---|---|
+| 1.0.0 | 2026-05-07 | Initial release |
+
+### Check for Updates
+
+```bash
+# Re-install to get the latest version
+npx skills add Wizbisy/okx-yield-pilot
+```
+
+Or check the version in your installed `SKILL.md` metadata against the [latest on GitHub](https://github.com/Wizbisy/okx-yield-pilot).
+
+---
+
 ## License
 
 MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
-*Built for the onchainOS ecosystem by [Wizbisy](https://github.com/Wizbisy)*
+*Built for the [OKX onchainOS](https://web3.okx.com/onchainos) ecosystem by [Wizbisy](https://github.com/Wizbisy)*
