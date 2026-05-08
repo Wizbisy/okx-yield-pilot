@@ -175,12 +175,18 @@ Yield Pilot orchestrates multi-step onchainOS CLI operations that would otherwis
 
 ```
 okx-yield-pilot/
-├── SKILL.md                      # 37KB — Main skill (YAML + 6 flows + 2 worked examples)
+├── SKILL.md                      # Main skill — 6 flows, routing, safety gates
 ├── _shared/
-│   └── preflight.md              # Pre-flight checks (wallet, address, API, positions)
+│   └── preflight.md              # Pre-flight checks (wallet login, address resolution, positions)
 ├── references/
-│   ├── cli-reference.md          # Full onchainos CLI parameter reference
-│   └── troubleshooting.md        # Error codes and recovery procedures
+│   ├── cli-reference.md          # Full onchainos CLI parameter tables and return schemas
+│   ├── troubleshooting.md        # Error codes and recovery procedures
+│   ├── examples.md               # Worked examples: Solana SOL-USDC, X Layer OKB-USDT
+│   ├── edge-cases.md             # V3 NFT, multi-token rewards, cross-chain optimization
+│   ├── batch-compound.md         # Batch execution order, thresholds, savings report
+│   ├── chains.md                 # Chain index, gas profiles, native token addresses
+│   └── efficiency.md             # Optimal call sequence, caching rules
+├── evals.json                    # 18 trigger/non-trigger test cases
 ├── README.md                     # This file
 └── LICENSE                       # MIT License
 ```
@@ -206,6 +212,7 @@ The key differentiator: **X Layer zero-gas routing**. Yield Pilot routes interme
 
 | Version | Date | Changes |
 |---|---|---|
+| 1.1.0 | 2026-05-08 | Extracted examples, edge cases, batch, chains, efficiency to references/; fixed Flow 6 persistence; fixed native token addresses per chain |
 | 1.0.0 | 2026-05-07 | Initial release |
 
 ### Check for Updates

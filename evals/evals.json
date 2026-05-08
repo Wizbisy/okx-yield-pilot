@@ -1,0 +1,110 @@
+[
+  {
+    "id": "t01",
+    "prompt": "Auto-compound my DeFi yields",
+    "should_trigger": true,
+    "notes": "Core trigger phrase"
+  },
+  {
+    "id": "t02",
+    "prompt": "Compound my Solana farming rewards",
+    "should_trigger": true,
+    "notes": "Single-chain compound"
+  },
+  {
+    "id": "t03",
+    "prompt": "Batch compound all my positions",
+    "should_trigger": true,
+    "notes": "Batch compound"
+  },
+  {
+    "id": "t04",
+    "prompt": "Rebalance my yield farm allocations",
+    "should_trigger": true,
+    "notes": "Rebalance flow"
+  },
+  {
+    "id": "t05",
+    "prompt": "Check the health of my farming positions",
+    "should_trigger": true,
+    "notes": "Health check flow"
+  },
+  {
+    "id": "t06",
+    "prompt": "Monitor impermanent loss on my LP positions",
+    "should_trigger": true,
+    "notes": "IL monitoring"
+  },
+  {
+    "id": "t07",
+    "prompt": "Show me my farming performance report",
+    "should_trigger": true,
+    "notes": "Performance report flow"
+  },
+  {
+    "id": "t08",
+    "prompt": "Set up daily auto-compounding for my farms",
+    "should_trigger": true,
+    "notes": "Schedule automation flow"
+  },
+  {
+    "id": "t09",
+    "prompt": "Pause my yield autopilot",
+    "should_trigger": true,
+    "notes": "Stop autopilot"
+  },
+  {
+    "id": "t10",
+    "prompt": "自动复投我的DeFi收益",
+    "should_trigger": true,
+    "notes": "Chinese trigger — compound"
+  },
+  {
+    "id": "t11",
+    "prompt": "检查无常损失",
+    "should_trigger": true,
+    "notes": "Chinese trigger — IL check"
+  },
+  {
+    "id": "t12",
+    "prompt": "Harvest and reinvest my X Layer rewards",
+    "should_trigger": true,
+    "notes": "Harvest + reinvest explicit"
+  },
+  {
+    "id": "t13",
+    "prompt": "My APY dropped on Raydium — should I exit?",
+    "should_trigger": true,
+    "notes": "APY drop detection → health check"
+  },
+  {
+    "id": "n01",
+    "prompt": "Swap 100 USDC for ETH",
+    "should_trigger": false,
+    "notes": "One-off swap → okx-dex-swap"
+  },
+  {
+    "id": "n02",
+    "prompt": "Show me my wallet balance",
+    "should_trigger": false,
+    "notes": "Balance check → okx-wallet-portfolio"
+  },
+  {
+    "id": "n03",
+    "prompt": "What's the price of SOL right now?",
+    "should_trigger": false,
+    "notes": "Token price → okx-dex-market"
+  },
+  {
+    "id": "n04",
+    "prompt": "Deposit 500 USDC into a DeFi product",
+    "should_trigger": false,
+    "notes": "One-off deposit → okx-defi-invest"
+  },
+  {
+    "id": "n05",
+    "prompt": "Show me my current DeFi positions",
+    "should_trigger": false,
+    "notes": "View only → okx-defi-portfolio"
+  }
+]
