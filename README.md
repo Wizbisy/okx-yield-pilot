@@ -178,6 +178,8 @@ okx-yield-pilot/
 ├── SKILL.md                      # Main skill — 6 flows, routing, safety gates
 ├── _shared/
 │   └── preflight.md              # Pre-flight checks (wallet login, address resolution, positions)
+├── evals/
+│   └── evals.json                # 18 trigger/non-trigger test cases
 ├── references/
 │   ├── cli-reference.md          # Full onchainos CLI parameter tables and return schemas
 │   ├── troubleshooting.md        # Error codes and recovery procedures
@@ -186,7 +188,6 @@ okx-yield-pilot/
 │   ├── batch-compound.md         # Batch execution order, thresholds, savings report
 │   ├── chains.md                 # Chain index, gas profiles, native token addresses
 │   └── efficiency.md             # Optimal call sequence, caching rules
-├── evals.json                    # 18 trigger/non-trigger test cases
 ├── README.md                     # This file
 └── LICENSE                       # MIT License
 ```
