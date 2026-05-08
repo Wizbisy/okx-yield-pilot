@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![onchainOS](https://img.shields.io/badge/onchainOS-Skill-purple.svg)](https://web3.okx.com/onchainos)
-[![Contest](https://img.shields.io/badge/Agentic_Trading-Contest-green.svg)](https://web3.okx.com/boost/trading-competition/agentic-trading)
+[![skills.sh](https://img.shields.io/badge/skills.sh-Directory-orange.svg)](https://skills.sh)
 
 ---
 
@@ -17,10 +17,12 @@ Yield Pilot is an **onchainOS Agent Skill** that automates the tedious, gas-inte
 | Capability | Description |
 |---|---|
 | **Auto-Compound** | Claim → swap → reinvest rewards across all positions |
+| **Batch Compound** | Compound all positions in one command — chains sorted by gas cost |
 | **Portfolio Rebalance** | Maintain target allocations across multiple farms |
 | **Health Monitoring** | APY anomaly detection, IL alerts, TVL drift warnings |
 | **Gas Optimization** | Chain-aware thresholds — skip compounds when gas > reward |
 | **Performance Reporting** | Effective APY, gas efficiency, net profit tracking |
+| **Intelligent Routing** | Decision tree + reasoning chain for optimal workflow selection |
 
 ### Supported Chains
 
@@ -46,7 +48,13 @@ This is an **onchainOS skill** — it runs inside your AI agent (Claude, Cursor,
 
 ### Setup
 
-Clone this skill into your agent's skills directory:
+Install via the [Skills Directory](https://skills.sh):
+
+```bash
+npx skills add Wizbisy/okx-yield-pilot
+```
+
+Or clone manually into your agent's skills directory:
 
 ```bash
 # Claude Code / Cursor
@@ -59,7 +67,7 @@ The skill will be automatically detected by your AI agent.
 
 ## Usage
 
-Talk to your agent naturally. Here are example prompts:
+Talk to your agent naturally in **English or Chinese**:
 
 ### Scan Positions
 ```
@@ -73,12 +81,14 @@ Talk to your agent naturally. Here are example prompts:
 "Compound all my farming rewards"
 "Harvest and reinvest my Solana yields"
 "Auto-compound my X Layer positions"
+"自动复投收益" / "复投我的DeFi奖励"
 ```
 
 ### Rebalance
 ```
 "Rebalance my yield farms — 50% Solana, 50% X Layer"
 "My SOL-USDC pool is overweight, rebalance to target"
+"重新平衡我的农场"
 ```
 
 ### Health Check
@@ -86,6 +96,7 @@ Talk to your agent naturally. Here are example prompts:
 "Check the health of my farming positions"
 "Is my impermanent loss getting too high?"
 "Any APY drops I should worry about?"
+"查看农场健康" / "检查无常损失"
 ```
 
 ### Performance Report
@@ -93,6 +104,7 @@ Talk to your agent naturally. Here are example prompts:
 "How much have I earned from farming this month?"
 "Show me my yield farming performance report"
 "What's my effective APY after gas costs?"
+"收益报告"
 ```
 
 ### Automation
@@ -100,6 +112,7 @@ Talk to your agent naturally. Here are example prompts:
 "Set up daily auto-compounding for my positions"
 "Enable yield autopilot"
 "Pause auto-compound"
+"启动收益自动化"
 ```
 
 ---
@@ -162,13 +175,30 @@ Yield Pilot orchestrates multi-step onchainOS CLI operations that would otherwis
 
 ```
 okx-yield-pilot/
-├── SKILL.md                      # Main skill definition (YAML frontmatter + instructions)
+├── SKILL.md                      # 37KB — Main skill (YAML + 6 flows + 2 worked examples)
+├── _shared/
+│   └── preflight.md              # Pre-flight checks (wallet, address, API, positions)
 ├── references/
 │   ├── cli-reference.md          # Full onchainos CLI parameter reference
 │   └── troubleshooting.md        # Error codes and recovery procedures
 ├── README.md                     # This file
 └── LICENSE                       # MIT License
 ```
+
+---
+
+## Why This Skill?
+
+Manual yield farming is tedious and gas-wasteful:
+
+| Task | Manual | With Yield Pilot |
+|---|---|---|
+| Claim + swap + reinvest 5 positions | ~30 min, $15+ gas | One command, gas-optimized |
+| Check all positions for APY drops | Open 5 DApps, compare manually | "Check health" → instant report |
+| Rebalance across chains | Multiple bridges + swaps | "Rebalance" → auto-route via X Layer |
+| Know effective APY after gas | Spreadsheet math | "Show report" → net APY calculated |
+
+The key differentiator: **X Layer zero-gas routing**. Yield Pilot routes intermediate operations through X Layer whenever possible, saving $5-25 per compound cycle on Ethereum.
 
 ---
 

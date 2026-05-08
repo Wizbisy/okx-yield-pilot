@@ -358,3 +358,40 @@ onchainos token price-info --address <token_addr> --chain <chain>
 
 The CLI resolves these symbols automatically: `usdc`, `usdt`, `dai`
 For other tokens, use `token search` to resolve addresses.
+
+## Well-Known Token Addresses
+
+Frequently used in compound/swap operations — avoid `token search` when possible:
+
+### Solana
+
+| Token | Address | Decimals |
+|---|---|---|
+| SOL (native) | `11111111111111111111111111111111` | 9 |
+| USDC | `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` | 6 |
+| USDT | `Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB` | 6 |
+| RAY (Raydium) | `4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R` | 6 |
+
+### EVM (Ethereum / BSC / Base / X Layer)
+
+| Token | Address | Note |
+|---|---|---|
+| Native (ETH/BNB/OKB) | `0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee` | Same across all EVM |
+| USDC (Ethereum) | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48` | 6 decimals |
+| USDT (Ethereum) | `0xdac17f958d2ee523a2206206994597c13d831ec7` | 6 decimals |
+| USDC (BSC) | `0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d` | 18 decimals |
+| USDT (BSC) | `0x55d398326f99059ff775485246999027b3197955` | 18 decimals |
+
+> **Note**: Token addresses differ per chain. Always verify with `token search` if unsure. The addresses above are for mainnet only.
+
+## Chain Index Quick Reference
+
+| chainIndex | Chain | Native Token | Gas |
+|---|---|---|---|
+| `1` | Ethereum | ETH | Variable |
+| `56` | BSC | BNB | ~$0.05 |
+| `196` | X Layer | OKB | **$0.00** |
+| `501` | Solana | SOL | ~$0.001 |
+| `8453` | Base | ETH | ~$0.01 |
+
+Use `chainIndex` (number) for `wallet contract-call --chain`, and chain name (string) for `defi`/`swap`/`portfolio` commands.
