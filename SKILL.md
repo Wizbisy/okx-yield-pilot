@@ -5,7 +5,7 @@ license: MIT
 metadata:
   author: Wizbisy 
   version: "1.0.0"
-  last_updated: "2026-05-08"
+  last_updated: "2026-05-07"
   min_onchainos_version: "1.0.0"
   homepage: "https://github.com/Wizbisy/okx-yield-pilot"
 ---
