@@ -3,8 +3,8 @@ name: okx-yield-pilot
 description: "Autonomous multi-chain yield farming autopilot — auto-compound, rebalance, and risk-guard DeFi positions across Solana and X Layer using onchainOS. Do NOT use for: manual one-off swaps (okx-dex-swap), DeFi product discovery or deposit (okx-defi-invest), DeFi position viewing only (okx-defi-portfolio), wallet balance checks (okx-wallet-portfolio), token prices (okx-dex-market). Triggers (EN): 'auto-compound my yields', 'compound my DeFi rewards', 'rebalance my yield farms', 'optimize my DeFi portfolio', 'auto-reinvest farming rewards', 'manage my LP positions', 'yield autopilot', 'set up auto-compounding', 'harvest and reinvest', 'compound rewards on Solana', 'compound rewards on X Layer', 'rebalance DeFi allocations', 'check yield farm health', 'monitor impermanent loss', 'show farming performance', 'stop auto-compound', 'pause yield strategy', 'resume yield farming', 'yield farm status', 'farming APY report', 'how much have I earned from farming', 'gas-efficient compounding', 'batch compound my positions', 'auto-harvest DeFi', 'optimize LP gas costs', 'schedule compound cycle', 'detect APY drop', 'farming circuit breaker', 'IL alert', 'impermanent loss check', 'exit underperforming farms', 'rotate to higher APY', 'yield comparison across chains'. Triggers (ZH): '自动复投收益', '复投我的DeFi奖励', '重新平衡我的农场', '优化DeFi组合', '查看农场健康', '检查无常损失', '收益报告', '暂停自动复投', '启动收益自动化'."
 license: MIT
 metadata:
-  author: Wizbisy 
-  version: "1.1.0"
+  author: Wizbisy
+  version: "1.2.0"
   last_updated: "2026-05-08"
   min_onchainos_version: "1.0.0"
   homepage: "https://github.com/Wizbisy/okx-yield-pilot"
@@ -31,22 +31,23 @@ Stay in this skill when the user wants **ongoing automated management**: auto-co
 
 ## Skill Routing Table
 
-| User intent | Target skill |
-|---|---|
-| Auto-compound / harvest & reinvest / yield autopilot | **This skill** |
-| Rebalance DeFi allocations automatically | **This skill** |
-| Monitor IL / APY anomalies / farming health | **This skill** |
-| View farming performance report | **This skill** |
-| One-off deposit into a DeFi product | `okx-defi-invest` |
-| View current DeFi positions (no action) | `okx-defi-portfolio` |
-| Swap tokens | `okx-dex-swap` |
-| Check wallet balance | `okx-wallet-portfolio` |
-| Token price or chart | `okx-dex-market` |
-| Named DApp (Aave, Orca, Raydium…) | `okx-dapp-discovery` |
+| User intent                                          | Target skill           |
+| ---------------------------------------------------- | ---------------------- |
+| Auto-compound / harvest & reinvest / yield autopilot | **This skill**         |
+| Rebalance DeFi allocations automatically             | **This skill**         |
+| Monitor IL / APY anomalies / farming health          | **This skill**         |
+| View farming performance report                      | **This skill**         |
+| One-off DeFi deposit/withdraw (no automation)        | `okx-defi-invest`      |
+| View current DeFi positions (no action)              | `okx-defi-portfolio`   |
+| Swap tokens                                          | `okx-dex-swap`         |
+| Check wallet balance                                 | `okx-wallet-portfolio` |
+| Token price or chart                                 | `okx-dex-market`       |
+| Named DApp (Aave, Orca, Raydium…)                    | `okx-dapp-discovery`   |
 
 ## Pre-flight Checks
 
 > Read the preflight checks before any workflow. Look for the file in this order:
+>
 > 1. `_shared/preflight.md` (relative to this SKILL.md file)
 > 2. `../_shared/preflight.md` (if skill is nested inside a parent skills folder)
 > 3. `../okx-agentic-wallet/_shared/preflight.md` (shared OKX preflight)
@@ -144,10 +145,10 @@ Discover all active yield farming positions and unclaimed rewards across chains.
 
 **Output format**:
 
-| # | Chain | Platform | Pool | Position Value | Unclaimed Rewards | Current APY | TVL |
-|---|---|---|---|---|---|---|---|
-| 1 | X Layer | UniswapV3 | OKB-USDT | $2,450 | $12.30 (UNI) | 18.5% | $5.2M |
-| 2 | Solana | Raydium | SOL-USDC | $1,800 | $8.70 (RAY) | 22.1% | $45M |
+| #   | Chain   | Platform  | Pool     | Position Value | Unclaimed Rewards | Current APY | TVL   |
+| --- | ------- | --------- | -------- | -------------- | ----------------- | ----------- | ----- |
+| 1   | X Layer | UniswapV3 | OKB-USDT | $2,450         | $12.30 (UNI)      | 18.5%       | $5.2M |
+| 2   | Solana  | Raydium   | SOL-USDC | $1,800         | $8.70 (RAY)       | 22.1%       | $45M  |
 
 ### Flow 2: Auto-Compound
 
@@ -195,7 +196,8 @@ Phase B — Reward Swap:
    onchainos swap quote \
      --from <reward_token_addr> --to <base_token_addr> \
      --readable-amount <claimed_amount> --chain <chain>
-   → Check priceImpact < 5%, check isHoneyPot
+   → Apply adaptive slippage tiers by priceImpact (3%/5%/10%), check isHoneyPot
+   → If priceImpact > 5%, require explicit user confirmation before swap
 
 7. Execute swap:
    onchainos swap execute \
@@ -227,6 +229,7 @@ Phase C — Reinvest:
 ```
 
 **Gas optimization rules**:
+
 - **X Layer**: Always compound — zero gas cost
 - **Solana**: Compound if rewards > $2 (gas ~$0.001)
 - **Ethereum**: Compound only if rewards > $50 (gas ~$5-25)
@@ -276,6 +279,7 @@ Adjust position sizes to match target allocation weights.
 ```
 
 **Rebalance rules**:
+
 - Default drift threshold: 10% (configurable)
 - Prefer X Layer for intermediate swaps (zero gas)
 - Never rebalance if total gas cost > 1% of portfolio value
@@ -321,10 +325,10 @@ Monitor position health: APY anomalies, impermanent loss, TVL changes.
 
 **Health status levels**:
 
-| Status | Condition | Action |
-|---|---|---|
-| 🟢 HEALTHY | All metrics normal | Continue autopilot |
-| 🟡 WARNING | APY drop > 40% OR IL > threshold OR TVL drop > 30% | Alert user, suggest review |
+| Status      | Condition                                             | Action                              |
+| ----------- | ----------------------------------------------------- | ----------------------------------- |
+| 🟢 HEALTHY  | All metrics normal                                    | Continue autopilot                  |
+| 🟡 WARNING  | APY drop > 40% OR IL > threshold OR TVL drop > 30%    | Alert user, suggest review          |
 | 🔴 CRITICAL | APY drop > 70% OR IL > 2× threshold OR TVL drop > 60% | Pause auto-compound, recommend exit |
 
 ### Flow 5: Performance Report
@@ -422,6 +426,7 @@ When the user does NOT provide a wallet address, resolve automatically:
 ```
 
 Rules:
+
 - If user provides explicit address, use directly — skip resolution
 - If wallet not logged in → ask user to log in first (→ `okx-agentic-wallet`)
 - **CRITICAL**: EVM addresses (`0x…`) can only query EVM chains; Solana addresses (base58) can only query `solana`. Never mix.
@@ -431,6 +436,7 @@ Rules:
 After `defi invest`/`withdraw`/`collect` returns `dataList`, execute via Agentic Wallet:
 
 **EVM chains (Ethereum, BSC, Base, X Layer)**:
+
 ```bash
 onchainos wallet contract-call \
   --to <dataList[N].to> \
@@ -441,6 +447,7 @@ onchainos wallet contract-call \
 ```
 
 **Solana**:
+
 ```bash
 onchainos wallet contract-call \
   --to <dataList[N].to> \
@@ -452,6 +459,7 @@ onchainos wallet contract-call \
 **`--value` conversion**: `dataList[].value` is in minimal units (wei). `contract-call --value` expects UI units. Convert: `value_UI = value / 10^nativeToken.decimal` (18 for ETH/OKB, 9 for SOL). If value is `""`, `"0"`, or `"0x0"`, use `"0"`.
 
 **Execution rules**:
+
 - Execute `dataList[0]` first, then `[1]`, etc. Never in parallel.
 - Wait for on-chain confirmation before next step.
 - If any step fails, stop remaining steps and report which succeeded/failed.
@@ -463,9 +471,9 @@ onchainos wallet contract-call \
 
 ### Position Table
 
-| # | Chain | Platform | Pool | Value | Rewards | APY | Status |
-|---|---|---|---|---|---|---|---|
-| 1 | X Layer | Uniswap V3 | OKB-USDT | $2,450.00 | $12.30 | 18.5% | 🟢 |
+| #   | Chain   | Platform   | Pool     | Value     | Rewards | APY   | Status |
+| --- | ------- | ---------- | -------- | --------- | ------- | ----- | ------ |
+| 1   | X Layer | Uniswap V3 | OKB-USDT | $2,450.00 | $12.30  | 18.5% | 🟢     |
 
 - `investmentId` is internal — do NOT display to user
 - `rate` from API is decimal → multiply by 100 and append `%`
@@ -486,20 +494,21 @@ onchainos wallet contract-call \
 
 ## Error Handling
 
-| Error | Scenario | Recovery |
-|---|---|---|
-| 84400 | Parameter null | Check required params — position may have been fully exited |
-| 84021 | Asset syncing | "Position data is syncing, please retry in 30 seconds" |
-| 84014 | Balance check failed | Insufficient balance — skip this compound, alert user |
-| 84018 | Balancing failed | Adjust slippage or skip V3 rebalance |
-| 84010 | Token not supported | Skip position, log warning |
-| 50011 | Rate limit | Wait 5 seconds and retry once |
-| Swap 82000 | Token dead/rugged | **CRITICAL**: Do NOT retry. Alert: "Reward token may be rugged. Manual review required." |
-| Swap 81362 | Risk warning | Do NOT auto-force. Alert user with risk details. |
+| Error      | Scenario             | Recovery                                                                                 |
+| ---------- | -------------------- | ---------------------------------------------------------------------------------------- |
+| 84400      | Parameter null       | Check required params — position may have been fully exited                              |
+| 84021      | Asset syncing        | "Position data is syncing, please retry in 30 seconds"                                   |
+| 84014      | Balance check failed | Insufficient balance — skip this compound, alert user                                    |
+| 84018      | Balancing failed     | Adjust slippage or skip V3 rebalance                                                     |
+| 84010      | Token not supported  | Skip position, log warning                                                               |
+| 50011      | Rate limit           | Wait 5 seconds and retry once                                                            |
+| Swap 82000 | Token dead/rugged    | **CRITICAL**: Do NOT retry. Alert: "Reward token may be rugged. Manual review required." |
+| Swap 81362 | Risk warning         | Do NOT auto-force. Alert user with risk details.                                         |
 
 > Load on error: [references/troubleshooting.md](references/troubleshooting.md)
 
 **Compound failure recovery**:
+
 1. If collect fails → skip to next position, log error
 2. If swap fails → hold claimed rewards in wallet, alert user
 3. If reinvest fails → rewards remain as swapped tokens in wallet, alert user
@@ -509,18 +518,19 @@ onchainos wallet contract-call \
 
 ### Safety Gates
 
-| Gate | Condition | Action |
-|---|---|---|
-| Gas guard | Gas cost > 50% of reward value | SKIP compound, log reason |
-| IL circuit breaker | IL > 2× user threshold | PAUSE auto-compound, alert user |
-| APY floor | APY drops below user minimum | FLAG position, suggest exit |
-| TVL guard | TVL drops > 60% in 7 days | CRITICAL alert, recommend exit |
-| Slippage guard | Swap slippage > 3% | SKIP swap, alert user |
-| Honeypot check | isHoneyPot = true on reward token | BLOCK swap, alert: "Reward token flagged as honeypot" |
+| Gate               | Condition                                                          | Action                                                |
+| ------------------ | ------------------------------------------------------------------ | ----------------------------------------------------- |
+| Gas guard          | Gas cost > 50% of reward value                                     | SKIP compound, log reason                             |
+| IL circuit breaker | IL > 2× user threshold                                             | PAUSE auto-compound, alert user                       |
+| APY floor          | APY drops below user minimum                                       | FLAG position, suggest exit                           |
+| TVL guard          | TVL drops > 60% in 7 days                                          | CRITICAL alert, recommend exit                        |
+| Slippage guard     | Adaptive tiers (3%/5%/10% by price impact), confirm if impact > 5% | Escalate by tier; stop after Tier 3; never auto-force |
+| Honeypot check     | isHoneyPot = true on reward token                                  | BLOCK swap, alert: "Reward token flagged as honeypot" |
 
 ### Fund-action Confirmation
 
 Every operation that moves funds requires explicit user confirmation:
+
 - Withdrawing from a position → confirm
 - Swapping tokens → confirm (unless in approved autopilot mode)
 - Depositing into a position → confirm
@@ -529,6 +539,7 @@ Every operation that moves funds requires explicit user confirmation:
 ### Silent / Automated Mode
 
 Enabled ONLY when user explicitly authorizes. Rules:
+
 1. **Explicit opt-in required**: User must say "enable autopilot" or equivalent
 2. **Risk gates still apply**: CRITICAL alerts halt autopilot and notify user
 3. **Execution log**: Log every automated action (timestamp, position, amount, txHash, status)
@@ -536,13 +547,13 @@ Enabled ONLY when user explicitly authorizes. Rules:
 
 ## Post-Action Suggestions
 
-| Just completed | Suggest |
-|---|---|
-| Position scan | "Would you like me to compound the unclaimed rewards?" or "Want a health check on these positions?" |
-| Auto-compound | "Want to see a performance report?" or "Scan for more positions to compound?" |
-| Rebalance | "View updated allocations?" or "Generate a performance report?" |
-| Health check | "Compound the healthy positions?" or "Exit the flagged positions?" |
-| Performance report | "Adjust your strategy?" or "Set up a compounding schedule?" |
+| Just completed     | Suggest                                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------------------- |
+| Position scan      | "Would you like me to compound the unclaimed rewards?" or "Want a health check on these positions?" |
+| Auto-compound      | "Want to see a performance report?" or "Scan for more positions to compound?"                       |
+| Rebalance          | "View updated allocations?" or "Generate a performance report?"                                     |
+| Health check       | "Compound the healthy positions?" or "Exit the flagged positions?"                                  |
+| Performance report | "Adjust your strategy?" or "Set up a compounding schedule?"                                         |
 
 Present conversationally — never expose skill names, onchainos commands, or internal flow names to the user.
 
@@ -560,7 +571,7 @@ Present conversationally — never expose skill names, onchainos commands, or in
 
 - `--amount` must be in **minimal units** (integer). Convert: userAmount × 10^tokenPrecision
 - The wallet address parameter for ALL defi commands is `--address`
-- `--slippage` default `"0.01"` (1%); suggest `"0.03"`–`"0.05"` for volatile pools
+- `--slippage` default `"0.01"` (1%); use adaptive tiers `"0.03"` / `"0.05"` / `"0.10"` by price impact; never auto-exceed `"0.10"`
 - **Solana tx expiry**: Warn user — 60 second window for signing
 - **X Layer zero gas**: Always highlight when suggesting chain for rebalancing
 - **Address-chain compatibility**: EVM (`0x…`) → only EVM chains. base58 → only Solana. Make separate calls for each.

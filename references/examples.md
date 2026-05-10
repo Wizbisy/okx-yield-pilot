@@ -11,7 +11,7 @@ Step 1 — Resolve address:
   onchainos wallet addresses
   → Solana: 5xYZ...abc
 
-Step 2 — Fetch positions:
+Step 2 — Fetch positions: 
   onchainos defi positions --address 5xYZ...abc --chains solana
   → platformId: "raydium_123", investmentId: "8502", tokenSymbol: "SOL-USDC"
 

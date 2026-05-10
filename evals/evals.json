@@ -1,7 +1,7 @@
 [
   {
     "id": "t01",
-    "prompt": "Auto-compound my DeFi yields",
+    "prompt": "Auto compound my DeFi yields",
     "should_trigger": true,
     "notes": "Core trigger phrase"
   },
@@ -106,5 +106,497 @@
     "prompt": "Show me my current DeFi positions",
     "should_trigger": false,
     "notes": "View only → okx-defi-portfolio"
+  },
+  {
+    "id": "n06",
+    "prompt": "Deposit my rewards into a DeFi product",
+    "should_trigger": false,
+    "notes": "One-off deposit → okx-defi-invest"
+  },
+  {
+    "id": "n07",
+    "prompt": "Swap my harvested rewards into USDC",
+    "should_trigger": false,
+    "notes": "One-off swap → okx-dex-swap"
+  },
+  {
+    "id": "n08",
+    "prompt": "Show my wallet token balances",
+    "should_trigger": false,
+    "notes": "Balance check → okx-wallet-portfolio"
+  },
+  {
+    "id": "n09",
+    "prompt": "Check the price of my reward token",
+    "should_trigger": false,
+    "notes": "Token price → okx-dex-market"
+  },
+  {
+    "id": "t14",
+    "prompt": "Can you just auto compound everything for me?",
+    "should_trigger": true,
+    "notes": "Casual all-positions compounding"
+  },
+  {
+    "id": "t15",
+    "prompt": "My rewards are sitting there, please harvest and put them back to work",
+    "should_trigger": true,
+    "notes": "Human phrasing for harvest and reinvest"
+  },
+  {
+    "id": "t16",
+    "prompt": "Rebalance my farms a bit, they feel off",
+    "should_trigger": true,
+    "notes": "Casual rebalance request"
+  },
+  {
+    "id": "t17",
+    "prompt": "Can you keep an eye on my LP health?",
+    "should_trigger": true,
+    "notes": "Human phrasing for health monitoring"
+  },
+  {
+    "id": "t18",
+    "prompt": "Give me the quick farming summary",
+    "should_trigger": true,
+    "notes": "Casual performance report"
+  },
+  {
+    "id": "t19",
+    "prompt": "If the APY tanks, let me know and help me exit",
+    "should_trigger": true,
+    "notes": "Health check with exit intent"
+  },
+  {
+    "id": "t20",
+    "prompt": "Set this to run every day",
+    "should_trigger": true,
+    "notes": "Automation scheduling"
+  },
+  {
+    "id": "t21",
+    "prompt": "Top up and compound my X Layer farm",
+    "should_trigger": true,
+    "notes": "Chain-specific compound phrasing"
+  },
+  {
+    "id": "t22",
+    "prompt": "I want to optimize my yield stack",
+    "should_trigger": true,
+    "notes": "Broad but in-scope automation request"
+  },
+  {
+    "id": "t23",
+    "prompt": "Please check whether my impermanent loss is getting ugly",
+    "should_trigger": true,
+    "notes": "Human phrasing for IL monitoring"
+  },
+  {
+    "id": "t24",
+    "prompt": "Show me the APY and TVL on my active farms",
+    "should_trigger": true,
+    "notes": "Performance + health reporting"
+  },
+  {
+    "id": "t25",
+    "prompt": "Pause the autopilot for now",
+    "should_trigger": true,
+    "notes": "Stop automation"
+  },
+  {
+    "id": "n10",
+    "prompt": "Can you show me my current portfolio positions?",
+    "should_trigger": false,
+    "notes": "View only → okx-defi-portfolio"
+  },
+  {
+    "id": "n11",
+    "prompt": "I just want a token quote for SOL",
+    "should_trigger": false,
+    "notes": "Token price → okx-dex-market"
+  },
+  {
+    "id": "n12",
+    "prompt": "Move 200 USDC from Ethereum to Solana for me",
+    "should_trigger": false,
+    "notes": "Bridge/transfer → okx-dex-bridge"
+  },
+  {
+    "id": "n13",
+    "prompt": "Buy me some ETH with USDC",
+    "should_trigger": false,
+    "notes": "One-off swap → okx-dex-swap"
+  },
+  {
+    "id": "n14",
+    "prompt": "Check my onchain wallet balance on Base",
+    "should_trigger": false,
+    "notes": "Balance check → okx-wallet-portfolio"
+  },
+  {
+    "id": "n15",
+    "prompt": "Open the Aave deposit screen for me",
+    "should_trigger": false,
+    "notes": "Named DApp → okx-dapp-discovery"
+  },
+  {
+    "id": "n16",
+    "prompt": "What are the best APY options right now?",
+    "should_trigger": false,
+    "notes": "Yield product discovery → okx-defi-invest"
+  },
+  {
+    "id": "n17",
+    "prompt": "Where should I park idle USDC for yield?",
+    "should_trigger": false,
+    "notes": "Yield product discovery → okx-defi-invest"
+  },
+  {
+    "id": "n18",
+    "prompt": "Show my DeFi holdings on Solana",
+    "should_trigger": false,
+    "notes": "View only → okx-defi-portfolio"
+  },
+  {
+    "id": "n19",
+    "prompt": "Give me a gas quote for this transaction",
+    "should_trigger": false,
+    "notes": "On-chain gateway → okx-onchain-gateway"
+  },
+  {
+    "id": "n20",
+    "prompt": "Scan this approval for safety",
+    "should_trigger": false,
+    "notes": "Security scan → okx-security"
+  },
+  {
+    "id": "n21",
+    "prompt": "How much is OKB worth right now?",
+    "should_trigger": false,
+    "notes": "Token price → okx-dex-market"
+  },
+  {
+    "id": "n22",
+    "prompt": "Revoke my bad approvals",
+    "should_trigger": false,
+    "notes": "Security / approvals → okx-security"
+  },
+  {
+    "id": "n23",
+    "prompt": "Show me the value of my address portfolio",
+    "should_trigger": false,
+    "notes": "Wallet portfolio → okx-wallet-portfolio"
+  },
+  {
+    "id": "n24",
+    "prompt": "I need a bridge quote from Base to Solana",
+    "should_trigger": false,
+    "notes": "Bridge quote → okx-dex-bridge"
+  },
+  {
+    "id": "n25",
+    "prompt": "What did I earn on my regular wallet trades?",
+    "should_trigger": false,
+    "notes": "PnL / market history → okx-dex-market"
+  },
+  {
+    "id": "t26",
+    "prompt": "帮我每天自动复投",
+    "should_trigger": true,
+    "notes": "Chinese: daily auto-compound"
+  },
+  {
+    "id": "t27",
+    "prompt": "我的农场收益太低了，需要优化",
+    "should_trigger": true,
+    "notes": "Chinese: farm yield optimization"
+  },
+  {
+    "id": "t28",
+    "prompt": "检查一下我的无常损失情况",
+    "should_trigger": true,
+    "notes": "Chinese: check impermanent loss"
+  },
+  {
+    "id": "t29",
+    "prompt": "帮我平衡一下持仓",
+    "should_trigger": true,
+    "notes": "Chinese: rebalance my positions"
+  },
+  {
+    "id": "t30",
+    "prompt": "启动自动化管理",
+    "should_trigger": true,
+    "notes": "Chinese: enable automation"
+  },
+  {
+    "id": "t31",
+    "prompt": "我的收益怎么样，给个报告",
+    "should_trigger": true,
+    "notes": "Chinese: yield report"
+  },
+  {
+    "id": "t32",
+    "prompt": "帮我自动收割所有的奖励",
+    "should_trigger": true,
+    "notes": "Chinese: auto-harvest rewards"
+  },
+  {
+    "id": "t33",
+    "prompt": "我要优化我的挖矿策略",
+    "should_trigger": true,
+    "notes": "Chinese: optimize mining strategy"
+  },
+  {
+    "id": "t34",
+    "prompt": "检查农场是否有风险",
+    "should_trigger": true,
+    "notes": "Chinese: check farm risks"
+  },
+  {
+    "id": "t35",
+    "prompt": "帮我设置每日复投",
+    "should_trigger": true,
+    "notes": "Chinese: set up daily compounding"
+  },
+  {
+    "id": "t36",
+    "prompt": "告诉我我的农场健康状况",
+    "should_trigger": true,
+    "notes": "Chinese: farm health status"
+  },
+  {
+    "id": "t37",
+    "prompt": "帮我把奖励重新投入",
+    "should_trigger": true,
+    "notes": "Chinese: reinvest rewards"
+  },
+  {
+    "id": "t38",
+    "prompt": "查一下我的APY有没有下降",
+    "should_trigger": true,
+    "notes": "Chinese: check APY drop"
+  },
+  {
+    "id": "t39",
+    "prompt": "暂停自动复投",
+    "should_trigger": true,
+    "notes": "Chinese: pause auto-compound"
+  },
+  {
+    "id": "t40",
+    "prompt": "我的LP池要调整吗",
+    "should_trigger": true,
+    "notes": "Chinese: should I adjust LP pool"
+  },
+  {
+    "id": "t41",
+    "prompt": "帮我优化收益",
+    "should_trigger": true,
+    "notes": "Chinese: optimize yields"
+  },
+  {
+    "id": "t42",
+    "prompt": "启用收益自动化",
+    "should_trigger": true,
+    "notes": "Chinese: enable yield automation"
+  },
+  {
+    "id": "t43",
+    "prompt": "检查无常损失和APY",
+    "should_trigger": true,
+    "notes": "Chinese: check IL and APY"
+  },
+  {
+    "id": "t44",
+    "prompt": "自动管理我的DeFi农场",
+    "should_trigger": true,
+    "notes": "Chinese: auto-manage DeFi farm"
+  },
+  {
+    "id": "t45",
+    "prompt": "帮我追踪农场表现",
+    "should_trigger": true,
+    "notes": "Chinese: track farm performance"
+  },
+  {
+    "id": "t46",
+    "prompt": "收益自动复投，谢谢",
+    "should_trigger": true,
+    "notes": "Chinese: auto-compound yields"
+  },
+  {
+    "id": "t47",
+    "prompt": "给我一份收益报告",
+    "should_trigger": true,
+    "notes": "Chinese: give me yield report"
+  },
+  {
+    "id": "t48",
+    "prompt": "我想启动自动农场管理",
+    "should_trigger": true,
+    "notes": "Chinese: enable auto farm management"
+  },
+  {
+    "id": "t49",
+    "prompt": "检查我的农场头寸",
+    "should_trigger": true,
+    "notes": "Chinese: check my farm positions"
+  },
+  {
+    "id": "t50",
+    "prompt": "帮我优化LP的收益率",
+    "should_trigger": true,
+    "notes": "Chinese: optimize LP yield rate"
+  },
+  {
+    "id": "n26",
+    "prompt": "显示我的钱包余额",
+    "should_trigger": false,
+    "notes": "Chinese: show wallet balance → okx-wallet-portfolio"
+  },
+  {
+    "id": "n27",
+    "prompt": "帮我用USDC交换ETH",
+    "should_trigger": false,
+    "notes": "Chinese: swap USDC for ETH → okx-dex-swap"
+  },
+  {
+    "id": "n28",
+    "prompt": "SOL现在多少钱",
+    "should_trigger": false,
+    "notes": "Chinese: SOL price → okx-dex-market"
+  },
+  {
+    "id": "n29",
+    "prompt": "显示我的DeFi持仓",
+    "should_trigger": false,
+    "notes": "Chinese: show DeFi holdings → okx-defi-portfolio"
+  },
+  {
+    "id": "n30",
+    "prompt": "把我的奖励存到DeFi产品",
+    "should_trigger": false,
+    "notes": "Chinese: deposit rewards to DeFi → okx-defi-invest"
+  },
+  {
+    "id": "n31",
+    "prompt": "检查我的地址组合价值",
+    "should_trigger": false,
+    "notes": "Chinese: check address portfolio value → okx-wallet-portfolio"
+  },
+  {
+    "id": "n32",
+    "prompt": "显示某个链上我有多少代币",
+    "should_trigger": false,
+    "notes": "Chinese: show tokens on a chain → okx-wallet-portfolio"
+  },
+  {
+    "id": "n33",
+    "prompt": "OKB现在的价格是多少",
+    "should_trigger": false,
+    "notes": "Chinese: OKB price → okx-dex-market"
+  },
+  {
+    "id": "n34",
+    "prompt": "给我一个从Base到Solana的桥接报价",
+    "should_trigger": false,
+    "notes": "Chinese: bridge quote Base to Solana → okx-dex-bridge"
+  },
+  {
+    "id": "n35",
+    "prompt": "最好的APY产品是哪个",
+    "should_trigger": false,
+    "notes": "Chinese: best APY product discovery → okx-defi-invest"
+  },
+  {
+    "id": "n36",
+    "prompt": "我要买入某个代币",
+    "should_trigger": false,
+    "notes": "Chinese: buy a token → okx-dex-swap"
+  },
+  {
+    "id": "n37",
+    "prompt": "检查这个授权安不安全",
+    "should_trigger": false,
+    "notes": "Chinese: check approval safety → okx-security"
+  },
+  {
+    "id": "n38",
+    "prompt": "帮我撤销危险的授权",
+    "should_trigger": false,
+    "notes": "Chinese: revoke dangerous approvals → okx-security"
+  },
+  {
+    "id": "n39",
+    "prompt": "我的钱包地址的组合值是多少",
+    "should_trigger": false,
+    "notes": "Chinese: portfolio value of my address → okx-wallet-portfolio"
+  },
+  {
+    "id": "n40",
+    "prompt": "在Aave上存入USDC",
+    "should_trigger": false,
+    "notes": "Chinese: deposit USDC on Aave → okx-dapp-discovery"
+  },
+  {
+    "id": "n41",
+    "prompt": "帮我查一下交易的手续费",
+    "should_trigger": false,
+    "notes": "Chinese: check transaction gas fees → okx-onchain-gateway"
+  },
+  {
+    "id": "n42",
+    "prompt": "帮我交换ETH到USDC",
+    "should_trigger": false,
+    "notes": "Chinese: swap ETH to USDC → okx-dex-swap"
+  },
+  {
+    "id": "n43",
+    "prompt": "显示我的余额",
+    "should_trigger": false,
+    "notes": "Chinese: show my balance → okx-wallet-portfolio"
+  },
+  {
+    "id": "n44",
+    "prompt": "查询一个地址的代币持仓",
+    "should_trigger": false,
+    "notes": "Chinese: check address token holdings → okx-wallet-portfolio"
+  },
+  {
+    "id": "n45",
+    "prompt": "市场上最热的代币是什么",
+    "should_trigger": false,
+    "notes": "Chinese: hottest tokens in market → okx-dex-market"
+  },
+  {
+    "id": "n46",
+    "prompt": "帮我在Uniswap上交易",
+    "should_trigger": false,
+    "notes": "Chinese: execute Uniswap trade → okx-dapp-discovery"
+  },
+  {
+    "id": "n47",
+    "prompt": "查询我的交易盈利",
+    "should_trigger": false,
+    "notes": "Chinese: check trading profits → okx-dex-market"
+  },
+  {
+    "id": "n48",
+    "prompt": "帮我找最好的收益产品",
+    "should_trigger": false,
+    "notes": "Chinese: find best yield product → okx-defi-invest"
+  },
+  {
+    "id": "n49",
+    "prompt": "显示我在Solana上的持仓",
+    "should_trigger": false,
+    "notes": "Chinese: show holdings on Solana → okx-defi-portfolio"
+  },
+  {
+    "id": "n50",
+    "prompt": "我要撤回这个农场的资金",
+    "should_trigger": false,
+    "notes": "Chinese: one-off withdraw from farm → okx-defi-invest"
   }
 ]

@@ -44,7 +44,40 @@ Common errors and recovery steps for yield farming operations.
 
 ### Price impact > 5%
 **Cause**: Low liquidity for the reward token.
-**Fix**: Warn user prominently. Consider smaller swap amounts or waiting for better liquidity.
+**Fix**:
+1. Require explicit user confirmation before executing the swap.
+2. Do not auto-force swaps above this impact threshold.
+3. If user declines, hold rewards in wallet and retry in a later cycle.
+
+### Slippage exceeded / price moved
+**Cause**: Market moved between quote and execution, or route liquidity changed.
+**Fix**:
+1. Use adaptive slippage tiers for all reward swaps:
+   - Tier 1: `0.03` (3%) for `priceImpact < 1%`
+   - Tier 2: `0.05` (5%) for `priceImpact >= 1% and < 3%`
+   - Tier 3: `0.10` (10%) for `priceImpact >= 3% and <= 5%`
+2. Retry once per position per cycle; if retrying, escalate to the next tier.
+3. If Tier 3 fails, stop automatic execution and alert user.
+4. Never exceed `0.10` automatically.
+
+### Example: retry with escalated slippage
+Use this sequence when a swap fails due to slippage and automatic retry is permitted under the one-retry-per-position rule.
+```bash
+# 1) Get quote and priceImpact
+onchainos swap quote --from <reward_token> --to <base_token> --readable-amount <amount> --chain <chain>
+
+# 2) Tier selection (example pseudocode):
+# if priceImpact < 1% -> slippage=0.03
+# elif priceImpact < 3% -> slippage=0.05
+# elif priceImpact <= 5% -> slippage=0.10
+# else -> require explicit user confirmation
+
+# 3) Execute swap with chosen slippage
+onchainos swap execute --from <reward_token> --to <base_token> --readable-amount <amount> --chain <chain> --wallet <addr> --slippage "0.05"
+
+# 4) If that fails and retry budget remains, escalate slippage and retry once:
+onchainos swap execute --from <reward_token> --to <base_token> --readable-amount <amount> --chain <chain> --wallet <addr> --slippage "0.10"
+```
 
 ## Wallet Errors
 
@@ -75,11 +108,13 @@ Common errors and recovery steps for yield farming operations.
 | Failure point | Funds state | Recovery action |
 |---|---|---|
 | Collect fails | Rewards still in pool | Skip to next position, retry next cycle |
-| Swap fails | Rewards in wallet (uncollected form) | Hold in wallet, alert user for manual swap |
+| Swap fails | Claimed rewards in wallet | Hold in wallet, alert user for manual swap |
 | Reinvest fails | Swapped tokens in wallet | Hold in wallet, alert user — tokens are safe |
 | Multiple failures | Mixed state | Generate detailed status report showing what succeeded/failed |
 
 **Rule**: Never retry more than once per position per cycle. Failing twice indicates a systemic issue.
+
+**Canonical templates**: For exact per-position and batch output templates used by automation and reporting, see [Batch Compound Issues](references/batch-compound.md#batch-compound-partially-fails). Use those strings verbatim so downstream parsers and UIs remain compatible.
 
 ## V3 NFT Position Issues
 
@@ -102,13 +137,79 @@ Common errors and recovery steps for yield farming operations.
 **Fix**: 
 1. Continue processing remaining positions — don't abort the entire batch
 2. Track which positions succeeded and which failed
-3. After batch completes, show summary:
+3. Use canonical per-position messages during execution:
    ```
-   ✅ Compounded: pos1, pos2, pos4
-   ❌ Failed: pos3 (error 84021 — asset syncing), pos5 (swap error — no liquidity)
-   💰 Total reinvested: $X.XX | Total gas: $Y.YY
+   SKIP {pool} ({chain}): rewards ${reward_value} below ${min_threshold} minimum
+
+   FAIL {pool} ({chain}) at COLLECT: {error_code} - {error_reason}
+   Recovery: Rewards remain in pool. Retry next cycle.
+
+   FAIL {pool} ({chain}) at SWAP: {error_code} - {error_reason}
+   Recovery: Claimed rewards are now in wallet ({reward_token} {amount}). Manual swap may be required.
+
+   FAIL {pool} ({chain}) at REINVEST: {error_code} - {error_reason}
+   Recovery: Swapped base tokens remain in wallet ({base_token} {amount}). Funds are safe.
    ```
-4. Suggest: "Retry failed positions?" or "Skip and check health?"
+4. After batch completes, show summary:
+   ```
+   ========================================
+   BATCH COMPOUND - Summary
+   ========================================
+   Completed: {completed_count}
+   Failed:    {failed_count}
+   Skipped:   {skipped_count}
+   ----------------------------------------
+   Rewards claimed:      ${total_claimed}
+   Net reinvested:       ${total_reinvested}
+   Pending in wallets:   ${total_pending_wallet}
+   Total gas:            ${total_gas}
+   ========================================
+   Next action: Retry failed positions now? (yes/no)
+   ```
+5. Suggest: "Retry failed positions?" or "Skip and check health?"
+
+### Batch summary log fields
+When emitting a batch compound summary for automation, include these fields fir consistenr parsing and observation:
+
+| Field | Meaning | Required |
+|---|---|---|
+| `timestamp` | ISO8601 UTC | Yes |
+| `pool` | Human-readable pool name plus platform | Yes |
+| `chain` | Chain string or index | Yes |
+| `step` | One of: COLLECT, SWAP, REINVEST | Yes |
+| `status` | SUCCESS / FAIL / SKIP | Yes |
+| `amount` | Amount claimed or processed in user units | Yes |
+| `token` | Token symbol | Yes |
+| `txHash` | Transaction hash if applicable | No |
+| `error_code` | Failure code, if any | No |
+| `error_reason` | Failure reason, if any | No |
+
+Example summary for a failed swap:
+
+| Field | Value |
+|---|---|
+| `timestamp` | `2026-05-10T12:34:56Z` |
+| `pool` | `SOL-USDC (Raydium)` |
+| `chain` | `solana` |
+| `step` | `SWAP` |
+| `status` | `FAIL` |
+| `amount` | `12.3` |
+| `token` | `RAY` |
+| `error_code` | `82000` |
+| `error_reason` | `no liquidity` |
+
+**Canonical templates**: See [batch-compound.md](references/batch-compound.md#batch-compound-partially-fails) for the exact per-position messages and summary wording.
+
+### When to stop and abort batch
+**Rule**: If more than 50% of positions fail in a single batch compound run, **stop processing and alert user**.
+
+**Likely cause**: Systemic issue (network down, pool delisted, critical price event, or contract bug).
+
+**Action**:
+1. Do NOT continue processing remaining positions.
+2. Generate a summary report of what failed (see Batch summary log fields above).
+3. Alert user: "Batch compound aborted — {failed_count}/{total_count} positions failed. Likely systemic issue. Check status and retry after investigating."
+4. Suggest user review chain status, pool liquidity, token status, and wallet balance before next cycle.
 
 ### All positions below threshold
 **Cause**: No position has rewards above the chain's minimum compound threshold.

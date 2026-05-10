@@ -58,3 +58,59 @@ After batch compound, show the user how much they saved:
    - X Layer positions: $0 gas (vs ~$5-25 per compound on Ethereum)
    - Processing time: ~{minutes} min (vs ~{manual_minutes} min manually)
 ```
+
+## Batch Partial Failure Message Templates
+
+Use these exact templates to keep reports consistent and actionable.
+
+Per-position skip (below threshold):
+```
+SKIP {pool} ({chain}): rewards ${reward_value} below ${min_threshold} minimum
+```
+
+Per-position collect failure:
+```
+FAIL {pool} ({chain}) at COLLECT: {error_code} - {error_reason}
+Recovery: Rewards remain in pool. Retry next cycle.
+```
+
+Per-position swap failure:
+```
+FAIL {pool} ({chain}) at SWAP: {error_code} - {error_reason}
+Recovery: Claimed rewards are now in wallet ({reward_token} {amount}). Manual swap may be required.
+```
+
+Per-position reinvest failure:
+```
+FAIL {pool} ({chain}) at REINVEST: {error_code} - {error_reason}
+Recovery: Swapped base tokens remain in wallet ({base_token} {amount}). Funds are safe.
+```
+
+Mixed-result batch summary:
+```
+========================================
+BATCH COMPOUND - Summary
+========================================
+Completed: {completed_count}
+Failed:    {failed_count}
+Skipped:   {skipped_count}
+----------------------------------------
+Rewards claimed:      ${total_claimed}
+Net reinvested:       ${total_reinvested}
+Pending in wallets:   ${total_pending_wallet}
+Total gas:            ${total_gas}
+========================================
+Next action: Retry failed positions now? (yes/no)
+```
+
+All-success batch summary:
+```
+========================================
+BATCH COMPOUND - Summary (SUCCESS)
+========================================
+Compounded positions: {completed_count}
+Total reinvested:     ${total_reinvested}
+Total gas:            ${total_gas}
+Estimated saved gas:  ${saved_vs_manual}
+========================================
+```

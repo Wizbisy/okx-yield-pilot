@@ -54,3 +54,34 @@ Solana calldata expires in ~60 seconds. If the user is slow to confirm:
 - Re-generate calldata by re-running `onchainos defi collect` / `onchainos defi invest`
 - Warn: "Previous transaction expired. Generating fresh calldata."
 - Never attempt to broadcast expired calldata
+
+### Swap Slippage Override (All Swap Scenarios)
+Use adaptive slippage for reward-token swaps, not only V3 rebalances.
+
+Default slippage tiers:
+- Tier 1: `0.03` (3%) for normal liquidity (`priceImpact < 1%`)
+- Tier 2: `0.05` (5%) for moderate liquidity (`priceImpact >= 1% and < 3%`)
+- Tier 3: `0.10` (10%) for thin liquidity (`priceImpact >= 3% and <= 5%`)
+
+Escalation and stop rules:
+1. Get quote and classify by `priceImpact`
+2. Execute swap at the selected tier
+3. If swap fails due to slippage/price movement, escalate one tier and retry once
+4. If Tier 3 fails, STOP and alert user (no auto-force)
+5. If `priceImpact > 5%`, require explicit user confirmation before any swap
+
+Suggested user alert for high impact:
+"Swap price impact is {priceImpact}%, which is above safe automatic limits. Confirm if you want to proceed."
+
+Example sequence:
+```
+onchainos swap quote --from <reward_token> --to <base_token> --readable-amount <amount> --chain <chain>
+
+# Choose slippage tier based on quote.priceImpact, then execute:
+onchainos swap execute \
+  --from <reward_token> --to <base_token> \
+  --readable-amount <amount> --chain <chain> --wallet <addr> \
+  --slippage "0.03"
+
+# Retry with "0.05" then "0.10" only if needed; do not exceed "0.10" automatically.
+```

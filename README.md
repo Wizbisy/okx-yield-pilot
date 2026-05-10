@@ -179,7 +179,7 @@ okx-yield-pilot/
 ├── _shared/
 │   └── preflight.md              # Pre-flight checks (wallet login, address resolution, positions)
 ├── evals/
-│   └── evals.json                # 18 trigger/non-trigger test cases
+│   └── evals.json                # 100 trigger/non-trigger test cases (50 English, 50 Chinese)
 ├── references/
 │   ├── cli-reference.md          # Full onchainos CLI parameter tables and return schemas
 │   ├── troubleshooting.md        # Error codes and recovery procedures
@@ -213,6 +213,7 @@ The key differentiator: **X Layer zero-gas routing**. Yield Pilot routes interme
 
 | Version | Date | Changes |
 |---|---|---|
+| 1.2.0 | 2026-05-10 | **Troubleshooting hardening** |
 | 1.1.0 | 2026-05-08 | Extracted examples, edge cases, batch, chains, efficiency to references/; fixed Flow 6 persistence; fixed native token addresses per chain |
 | 1.0.0 | 2026-05-07 | Initial release |
 
